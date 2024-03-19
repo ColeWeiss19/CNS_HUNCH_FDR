@@ -22,4 +22,4 @@ def calibrate(data):
 def search(sensor):
     touch_value = sensor.read_u16()
     sleep(0.5)
-    return touch_value
+    return dev * 7.0 + avg
