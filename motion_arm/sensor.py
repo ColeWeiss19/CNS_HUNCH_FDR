@@ -18,3 +18,8 @@ def calibrate(data):
                 data.append(touch_value)
                 sleep(0.05)                    
             print("calibration complete")
+
+def search(sensor):
+    touch_value = sensor.read_u16()
+    sleep(0.5)
+    return touch_value
