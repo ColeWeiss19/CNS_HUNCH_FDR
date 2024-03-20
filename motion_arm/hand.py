@@ -33,4 +33,4 @@ def reset():
     
     openHand(servo)
     
-    sigVal = calibrate(data())
+    calibrate(data())
