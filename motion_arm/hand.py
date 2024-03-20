@@ -1,7 +1,6 @@
 #360-degree servo code
 
-from machine import Pin, PWM
-from time import sleep_ms
+from sensor import *
 
 servo = PWM(Pin(0)) # setting the Pin to PWM
 
@@ -24,3 +23,14 @@ def openHand(servo):
     time.sleep_ms(1550) # delay for 1.55 seconds
 
     servo.duty_u16(0) # stopping servo
+    
+def readAndClose(servo):
+    
+    if search() == True:
+        closeHand(servo)
+    
+def reset():
+    
+    openHand(servo)
+    
+    sigVal = calibrate(data())
