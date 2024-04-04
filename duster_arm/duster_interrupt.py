@@ -50,8 +50,6 @@ def worker2(servo2):
     for pos in range(9000, 0, -50):
       if thread0:
         scrubMotion(servo2, pos)
-        
-    servo2.duty_u16(4500)
 
 while True:
   worker2(servo2)
