@@ -2,10 +2,13 @@ from machine import Pin, PWM
 import math
 import random
 import time
+import _thread as thread
 
-servo1 = PWM(Pin(21))
-servo2 = PWM(Pin(15))
+servo1 = PWM(Pin(0))
+servo2 = PWM(Pin(1))
 signal = Pin(2, Pin.IN, Pin.PULL_DOWN)
+
+interrupt_flag = 0
 
 def callback(signal):
     global interrupt_flag
@@ -25,15 +28,15 @@ signal.irq(trigger=Pin.IRQ_RISING,handler = callback)
 thread1 = True
 
 def worker1(servo1):
-  global thread1
-  servo1.freq(50)
-  while True:
-      for pos in range(0, 9000, 50):
-        if thread1:
-          sweepMotion(servo1, pos)
-      for pos in range(9000, 0, -50):
-        if thread1:
-          sweepMotion(servo1, pos)
+    global thread1
+    servo1.freq(50)
+    while True:
+        for pos in range(0, 9000, 50):
+            if thread1:
+                sweepMotion(servo1, pos)
+        for pos in range(9000, 0, -50):
+            if thread1:
+                sweepMotion(servo1, pos)
 
 thread = thread.start_new_thread(worker1, (servo1,))
 
@@ -43,7 +46,7 @@ thread = thread.start_new_thread(worker1, (servo1,))
 thread0 = True
 
 def worker2(servo2):
-  servo2.freq(50)
+    servo2.freq(50)
     for pos in range(0, 9000, 50):
       if thread0:
         scrubMotion(servo2, pos)
@@ -53,9 +56,9 @@ def worker2(servo2):
 
 while True:
   worker2(servo2)
-  thread0, thread1 = True
+  thread0, thread1 = True, True
   if interrupt_flag is 1:
-    thread0, thread1 = False
+    thread0, thread1 = False, False
     interrupt_flag = 0
     time.sleep(5)
 
